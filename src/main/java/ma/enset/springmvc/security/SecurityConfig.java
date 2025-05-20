@@ -20,12 +20,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {//permet a spring de specifier les user qui peuvent acceder a l'app
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {//permet a spring de specifier les user qui peuvent acceder a l'app, les mot de passe des users sont stocker dans la memoire
         PasswordEncoder encoder = passwordEncoder();
         return new InMemoryUserDetailsManager(
-                User.withUsername("user1").password("1234").roles("USER").build(),
-                User.withUsername("user2").password("1234").roles("USER").build(),
-                User.withUsername("admin").password("1234").roles("USER","ADMIN").build()
+                User.withUsername("user1").password(passwordEncoder().encode("1234")).roles("USER").build(),
+                User.withUsername("user2").password(passwordEncoder().encode("1234")).roles("USER").build(),
+                User.withUsername("admin").password(passwordEncoder().encode("1234")).roles("USER","ADMIN").build()
         );
     }
     @Bean
@@ -33,9 +33,11 @@ public class SecurityConfig {
         return http
                 .formLogin(Customizer.withDefaults())// config par defaut, if user not auth display form
 //                .formLogin(fl->fl.loginPage("/login"))// if i wanat to use my custom login page
-                .authorizeHttpRequests(ar->ar.requestMatchers("/index/**").hasRole("USER"))// pour acceder a la resource /index/** ton role doit etre USER
-                .authorizeHttpRequests(ar->ar.requestMatchers("/save/**","/delete/**").hasRole("ADMIN"))
-                .authorizeHttpRequests(ar->ar.anyRequest().authenticated()) // every request need to authenticate
+                .authorizeHttpRequests(ar->ar.requestMatchers("/user/**").hasRole("USER"))// pour acceder a la resource /index/** ton role doit etre USER
+                .authorizeHttpRequests(ar->ar.requestMatchers("/admin/**").hasRole("ADMIN"))
+                .authorizeHttpRequests(ar->ar.requestMatchers("/public/**").permitAll())
+                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .exceptionHandling(eh->eh.accessDeniedPage("/notAuthorized"))// every request need to authenticate
                 .build();
     }
 }
