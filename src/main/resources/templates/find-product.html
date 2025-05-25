@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th=":http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq,net,nz/thymleaf/layout"
+      layout:decorate="layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+</head>
+<body>
+<h2>Hello Product</h2>
+<div class="p-3" layout:fragment="content">
+    <div class="p-3" sec:authorize="hasRole('ADMIN')">
+        <a class="btn btn-primary" th:href="@{/admin/newProduct}">New Product</a>
+    </div>
+    <table class="table">
+        <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.quantity}"></td>
+        <tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

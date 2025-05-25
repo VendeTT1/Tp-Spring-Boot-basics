@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th=":http://www.thymleaf.org"
+      xmlns:layout="http://www.ultraq,net,nz/thymleaf/layout"
+      layout:decorate="layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+</head>
+<body>
+<h2>Hello Product</h2>
+<div class="p-3" layout:fragment="content">
+    <form method="post" th:action="@{/admin/editProduct}">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" type="text" name="name" placeholder="${product.name}" th:value="${product.name}">
+            <span class="text-danger" th:errors="${product.name}"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input class="form-control" type="text" name="price" placeholder="${product.price}" th:value="${product.price}">
+            <span class="text-danger" th:errors="${product.price}"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input class="form-control" type="text" name="quantity" placeholder="${product.quantity}" th:value="${product.quantity}">
+            <span class="text-danger" th:errors="${product.quantity}"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+</div>
+</body>
+</html>
